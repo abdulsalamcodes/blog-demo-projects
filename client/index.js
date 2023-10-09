@@ -19,60 +19,60 @@ app.set("view engine", "handlebars");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Route to display the list of customers
+// Route to display the list of users
 app.get("/", (req, res) => {
-  // Use gRPC client to fetch all customers
+  // Use gRPC client to fetch all users
   client.getAll(null, (err, data) => {
     if (!err) {
-        res.render("customers", { results: data.customers });
+        res.render("users", { results: data.users });
     }
   });
 });
 
-// Route to handle the creation of a new customer
+// Route to handle the creation of a new user
 app.post("/save", (req, res) => {
-  // Create a new customer object from the request data
-  let newCustomer = {
+  // Create a new user object from the request data
+  let newUser = {
     name: req.body.name,
     age: req.body.age,
     address: req.body.address,
   };
 
-  // Use gRPC client to insert the new customer
-  client.insert(newCustomer, (err, data) => {
+  // Use gRPC client to insert the new user
+  client.insert(newUser, (err, data) => {
     if (err) throw err;
 
-    console.log("Customer created successfully", data);
+    console.log("User created successfully", data);
     res.redirect("/");
   });
 });
 
-// Route to handle the updating of an existing customer
+// Route to handle the updating of an existing user
 app.post("/update", (req, res) => {
-  // Create an updated customer object from the request data
-  const updateCustomer = {
+  // Create an updated user object from the request data
+  const updateUser = {
     id: req.body.id,
     name: req.body.name,
     age: req.body.age,
     address: req.body.address,
   };
 
-  // Use gRPC client to update the customer
-  client.update(updateCustomer, (err, data) => {
+  // Use gRPC client to update the user
+  client.update(updateUser, (err, data) => {
     if (err) throw err;
 
-    console.log("Customer updated successfully", data);
+    console.log("User updated successfully", data);
     res.redirect("/");
   });
 });
 
-// Route to handle the removal of a customer
+// Route to handle the removal of a user
 app.post("/remove", (req, res) => {
-  // Use gRPC client to remove the customer by ID
-  client.remove({ id: req.body.customer_id }, (err, _) => {
+  // Use gRPC client to remove the user by ID
+  client.remove({ id: req.body.user_id }, (err, _) => {
     if (err) throw err;
 
-    console.log("Customer removed successfully");
+    console.log("User removed successfully");
     res.redirect("/");
   });
 });

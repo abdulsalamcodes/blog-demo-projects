@@ -1,21 +1,59 @@
-<!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <title>LogRocket CRUD with gRPC and Node</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <style>
-        .logrocket {
-            background-color: #764abc;
-            color: white;
-        }
-    </style>
-</head>
+  {{! Head }}
 
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>User's List</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <style>
+      /* Dark Mode Styling */ body { background-color: #121212; color: #fff; }
+      .card { background-color: #1e1e1e; color: #fff; } .modal-content {
+      background-color: #1e1e1e; color: #fff; }
+    </style>
+  </head>
+
+  {{! Body }}
+
+  <body>
     {{{body}}}
-</body>
+  </body>
+
+  {{! Scripts }}
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    $(document).ready(function () {
+        $('#users_container').on('click', '.edit',
+            function () {
+                $('#editUserModal').modal('show');
+                $('.id').val($(this).data('id')); 
+                $('.name').val($(this).data('name'));
+                $('.age').val($(this).data('age'));
+                $('.address').val($(this).data('address'));
+            }).on('click', '.remove',
+              function () {
+                $('#removeUserModal').modal('show');
+                $('.user_id_removal').val($(this).data('id'));
+            });
+    });
+</script>
 
 </html>

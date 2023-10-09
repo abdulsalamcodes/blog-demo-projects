@@ -1,4 +1,4 @@
-const PROTO_PATH = "./customers.proto";
+const PROTO_PATH = "./protos/users.proto";
 import {
   loadPackageDefinition,
   Server,
@@ -9,7 +9,7 @@ import { loadSync } from "@grpc/proto-loader";
 import { v4 as uuidv4 } from "uuid";
 
 // Initial data.
-const customers = [
+const users = [
   {
     id: "a68b823c-7ca6-44bc-b721-fb4d5312cafc",
     name: "John Bolton",
@@ -32,21 +32,21 @@ var packageDefinition = loadSync(PROTO_PATH, {
   arrays: true,
 });
 
-var customersProto = loadPackageDefinition(packageDefinition);
+var usersProto = loadPackageDefinition(packageDefinition);
 
 // Server Configuration.
 const server = new Server();
 
-server.addService(customersProto.CustomerService.service, {
+server.addService(usersProto.UserService.service, {
   getAll: (_, callback) => {
-    callback(null, { customers: customers });
+    callback(null, { users: users });
   },
 
   get: (call, callback) => {
-    let customer = customers.find((n) => n.id == call.request.id);
+    let user = users.find((n) => n.id == call.request.id);
 
-    if (customer) {
-      callback(null, customer);
+    if (user) {
+      callback(null, user);
     } else {
       callback({
         code: status.NOT_FOUND,
@@ -56,21 +56,21 @@ server.addService(customersProto.CustomerService.service, {
   },
 
   insert: (call, callback) => {
-    let customer = call.request;
+    let user = call.request;
 
-    customer.id = uuidv4();
-    customers.push(customer);
-    callback(null, customer);
+    user.id = uuidv4();
+    users.push(user);
+    callback(null, user);
   },
 
   update: (call, callback) => {
-    let existingCustomer = customers.find((n) => n.id == call.request.id);
+    let existingUser = users.find((n) => n.id == call.request.id);
 
-    if (existingCustomer) {
-      existingCustomer.name = call.request.name;
-      existingCustomer.age = call.request.age;
-      existingCustomer.address = call.request.address;
-      callback(null, existingCustomer);
+    if (existingUser) {
+      existingUser.name = call.request.name;
+      existingUser.age = call.request.age;
+      existingUser.address = call.request.address;
+      callback(null, existingUser);
     } else {
       callback({
         code: status.NOT_FOUND,
@@ -80,12 +80,12 @@ server.addService(customersProto.CustomerService.service, {
   },
 
   remove: (call, callback) => {
-    let existingCustomerIndex = customers.findIndex(
+    let existingUserIndex = users.findIndex(
       (n) => n.id == call.request.id
     );
 
-    if (existingCustomerIndex != -1) {
-      customers.splice(existingCustomerIndex, 1);
+    if (existingUserIndex != -1) {
+      users.splice(existingUserIndex, 1);
       callback(null, {});
     } else {
       callback({

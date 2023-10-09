@@ -1,4 +1,4 @@
-const PROTO_PATH = "./customers.proto";
+const PROTO_PATH = "./protos/users.proto";
 import { loadPackageDefinition, credentials } from "@grpc/grpc-js";
 import { loadSync } from "@grpc/proto-loader";
 
@@ -9,9 +9,9 @@ const packageDefinition = loadSync(PROTO_PATH, {
   arrays: true,
 });
 
-const CustomerService = loadPackageDefinition(packageDefinition).CustomerService;
+const UserService = loadPackageDefinition(packageDefinition).UserService;
 
-const client = new CustomerService(
+const client = new UserService(
   "localhost:30043",
   credentials.createInsecure()
 );
